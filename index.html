@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CrossIt.ai - AI-Powered Solutions Coming Soon</title>
+    <title>CrossIt.ai - Coming Soon</title>
+    <link rel="icon" href="Public/FAVICON.png" type="image/png">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
     <link href="//cdn-images.mailchimp.com/embedcode/classic-061523.css" rel="stylesheet" type="text/css">
     <style>
@@ -320,13 +321,19 @@
         }
         
         .social-links a {
-            color: white;
-            font-size: 1.5rem;
-            transition: color 0.3s ease;
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            transition: transform 0.3s ease;
         }
         
         .social-links a:hover {
-            color: var(--accent);
+            transform: scale(1.1);
+        }
+        
+        .social-links img {
+            width: 100%;
+            height: 100%;
         }
         
         .footer-text {
@@ -496,9 +503,10 @@
     <footer>
         <div class="container">
             <div class="social-links">
-                <a href="#" aria-label="Twitter">T</a>
-                <a href="#" aria-label="LinkedIn">L</a>
-                <a href="#" aria-label="Facebook">F</a>
+                <a href="#" aria-label="X (Twitter)"><img src="Public/X_logo.jpg" alt="X (Twitter) Logo"></a>
+                <a href="#" aria-label="LinkedIn"><img src="Public/LinkedIn_logo.svg" alt="LinkedIn Logo"></a>
+                <a href="#" aria-label="Facebook"><img src="Public/Facebook_logo.svg" alt="Facebook Logo"></a>
+                <a href="#" aria-label="Instagram"><img src="Public/Instagram_logo.svg" alt="Instagram Logo"></a>
             </div>
             <p class="footer-text">&copy; 2025 CrossIt.ai. All rights reserved.</p>
         </div>
