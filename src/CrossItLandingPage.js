@@ -8,8 +8,8 @@ const TypewriterText = ({ text, className }) => {
   useEffect(() => {
     let i = 0;
     const typingEffect = setInterval(() => {
-      if (i < text.length) {
-        setDisplayText((prevText) => prevText + text.charAt(i)); // Fix typewriter issue
+      if (i <= text.length) { // Ensure it captures the full text
+        setDisplayText(text.slice(0, i));
         i++;
       } else {
         clearInterval(typingEffect);
