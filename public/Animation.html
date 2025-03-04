@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CrossIt.ai Animation</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #ffffff;
+        }
+        #animation-container {
+            position: absolute;
+            display: flex;
+            flex-direction: column; /* Start with text under the logo */
+            align-items: center;
+            transform: scale(1.5);
+            gap: 10px; /* Space between logo and text */
+        }
+        #logo-svg, #text-svg {
+            display: block;
+            max-width: 100%;
+            position: relative;
+        }
+        #text-svg {
+            opacity: 0;
+            transform: translateY(-50px); /* Start text slightly lower */
+        }
+    </style>
+</head>
+<body>
+
+    <div id="animation-container">
+        <object id="logo-svg" type="image/svg+xml" data="Logoalone200x200.svg"></object>
+        <object id="text-svg" type="image/svg+xml" data="CrossIt350x100.svg"></object>
+    </div>
+
+    <script>
+        function runAnimation() {
+            let logoObject = document.getElementById("logo-svg");
+            let textObject = document.getElementById("text-svg");
+
+            logoObject.addEventListener("load", function () {
+                let logoSVG = logoObject.contentDocument;
+                let logoParts = logoSVG.querySelectorAll("path, rect, polygon");
+
+                let tl = gsap.timeline();
+
+                // Step 1: Animate Logo Parts (Smooth Build-Up)
+                logoParts.forEach((part, index) => {
+                    tl.fromTo(part, { opacity: 0, x: "-50%", y: 20 }, { opacity: 1, x: "0%", y: 0, duration: 0.6 }, index * 0.1);
+                });
+
+                // Step 2: Fade in Text Below Logo
+                tl.to("#text-svg", { opacity: 1, y: 0, duration: 0.8 }, "+=0.4");
+
+                // Step 3: SCALE DOWN FIRST before moving up
+                tl.to("#animation-container", {
+                    scale: 0.5,
+                    duration: 1.2, 
+                    ease: "power2.out"
+                }, "+=0.5");
+
+                // Step 4: MOVE BOTH ELEMENTS STRAIGHT UP TO THE TOP
+                tl.to("#animation-container", {
+                    y: "-45vh", /* Moves everything to the top */
+                    x: "0vw",
+                    duration: 1.5,
+                    ease: "power2.out"
+                }, "-=1");
+
+                // Step 5: Move Logo Slightly Left AFTER it reaches the top
+                tl.to("#logo-svg", {
+                    x: "-55", // Slight left movement
+                    duration: 0.8,
+                    ease: "power2.out"
+                }, "-=1.5"); // Happens as it's reaching the top
+
+                // Step 6: Move Text Further Left & Down AFTER it reaches the top
+                tl.to("#text-svg", {
+                    x: "100", // Moves text further left
+                    y: "-95",  // Moves text slightly down
+                    duration: 0.8,
+                    ease: "power2.out"
+                }, "-=1.5"); // Happens as it's reaching the top
+
+                // Step 7: Store Final Position and Notify React
+                tl.to({}, { duration: 0.5, onComplete: () => {
+                    const animationContainer = document.getElementById("animation-container");
+                    const rect = animationContainer.getBoundingClientRect();
+
+                    // Store final position, scale, and dimensions
+                    const finalHeaderData = {
+                        x: rect.left,
+                        y: rect.top,
+                        width: rect.width,
+                        height: rect.height,
+                        scale: 0.5 // Same as animation scaling
+                    };
+
+                    localStorage.setItem("finalHeaderPosition", JSON.stringify(finalHeaderData));
+
+                    // Notify React that animation is complete
+                    window.parent.postMessage("animationComplete", "*");
+                }});
+
+            });
+        }
+
+        document.addEventListener("DOMContentLoaded", runAnimation);
+    </script>
+
+</body>
+</html>
