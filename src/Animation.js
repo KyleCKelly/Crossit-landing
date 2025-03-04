@@ -26,17 +26,17 @@ const Animation = () => {
 
   return (
     <iframe
-      src="/animation.html"
-      title="CrossIt Animation"
-      style={{
-        width: "100vw",
-        height: "100vh",
-        border: "none",
-        position: "absolute",
-        top: 0,
-        left: 0,
-      }}
-    ></iframe>
+    src={`${window.location.origin}/Animation.html`} // Ensure it's using the correct case
+    title="CrossIt Animation"
+    style={{
+      width: "100vw",
+      height: "100vh",
+      border: "none",
+      position: "absolute",
+      top: 0,
+      left: 0,
+    }}
+  ></iframe>
   );
 };
 
